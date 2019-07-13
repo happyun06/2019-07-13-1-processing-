@@ -1,0 +1,270 @@
+//rotate, pushMatrix, popMatrix, translate, scale, ellipse, ellipseMode, rect, rectMode, size, line, dot, float, int, void setup, void draw, strokeWeight, stroke, fill
+//moving robot
+int y=360;
+int bodyHeight=180;
+int neckHeight=40;
+int radius=45;
+float easing=0.04;
+void setup(){
+   size(720,480);
+   ellipseMode(RADIUS);
+}
+void draw(){
+  strokeWeight(2);
+float ny=-bodyHeight-neckHeight-radius;
+background(0,150,200);
+translate(mouseX,y);
+if(mousePressed){
+  scale(1.0);
+}
+else{
+  scale(0.6);
+}
+
+//neck
+stroke(255);
+line(2,-bodyHeight,2,ny);
+line(12,-bodyHeight,12,ny);
+line(22,-bodyHeight,22,ny);
+
+//antena
+pushMatrix();
+translate(12,ny);
+float angle=-PI/30.0;
+for(int i=0;i<=30;i++){
+  line(80,0,0,0);
+  rotate(angle);
+}
+popMatrix();
+
+
+//body
+noStroke();
+fill(255,204,0);
+ellipse(0,-33,33,33);
+fill(0);
+rect(-45,-bodyHeight,90,bodyHeight-33);
+fill(255,204,0);
+rect(-45,-bodyHeight+7,90,6);
+
+//head
+fill(0);
+ellipse(12,ny,radius,radius);
+fill(255);
+ellipse(24,ny-6,14,14);
+fill(0);
+ellipse(24,ny-6,3,3);
+fill(153,204,255);
+ellipse(0,ny-8,5,5);
+ellipse(30,ny-26,4,4);
+ellipse(41,ny+6,3,3);
+}
+
+
+
+
+
+
+
+
+//PImage, loadImage
+//mouse에따른 사진크기
+PImage img;
+void setup(){
+  size(480,120);
+  img=loadImage("lunar.jpg");
+}
+
+void draw(){
+  background(0);
+  image(img,0,0,mouseX*2,mouseY*2);
+}
+
+
+
+
+
+
+
+
+//font, textFont, PFont
+//일정한 크기에서 글씨쓰기
+PFont font;
+void setup(){
+  size(480,120);
+  font=createFont("SourceCodePro-Regular.ttf",24);
+  textFont(font);
+}
+
+void draw(){
+  background(100);
+  text("That's one small step for man...",26,24,240,100);
+}
+
+
+
+
+
+
+
+
+
+//String
+PFont font;
+String quote="That's one small step for man...";
+
+void setup(){
+  size(480,120);
+  font=createFont("SourceCodePro-Regular.ttf",24);
+  textFont(font);
+}
+
+void draw(){
+  background(100);
+  text(quote,26,24,240,100);
+}
+
+
+
+
+
+
+
+
+
+//map
+//마우스에 따른 사진크기조절
+PShape network;
+
+void setup(){
+  size(480,120);
+  shapeMode(CENTER);
+  network=loadShape("network.svg");
+}
+
+void draw(){
+  background(0);
+  float diameter=map(mouseX,0,width,10,800);
+  shape(network,120,60,diameter,diameter);
+}
+
+
+
+
+
+
+
+
+
+//lunar사진에 3개의로봇넣어서 마우스 y좌표에 따라 움직이게 하기
+PShape bot1;
+PShape bot2;
+PShape bot3;
+PImage ls;
+
+float easing = 0.05;
+float offset=0;
+
+void setup(){
+  size(960,480);
+  bot1=loadShape("robot1.svg");
+  bot2=loadShape("robot2.svg");
+  bot3=loadShape("robot3.svg");
+  ls=loadImage("lunar_2x.jpg");
+}
+void draw(){
+  background(ls);
+  
+  float targetOffset=map(mouseY,0,height,-40,40);
+  offset+=(targetOffset-offset)*easing;
+  shape(bot1,85+offset,65);
+  float smallerOffset=offset*0.7;
+  shape(bot2,510+smallerOffset,140,78,248);
+  smallerOffset*=-0.5;
+  shape(bot3,410+smallerOffset,255,39,124);
+}
+
+
+
+
+
+
+
+
+
+//마우스에 따른 속도변화를 가진 팩맨
+int radius=40;
+float x=-radius;
+float speed=0.7;
+int direction=1;
+
+void setup(){
+  size(960,120);
+  ellipseMode(RADIUS);
+}
+
+void draw(){
+  background(0);
+  fill(#13F04F);
+  speed=mouseX;
+  x+=speed*direction;
+  if((x>width-radius)||(x<radius)){
+    direction=-direction;
+  }
+  if(direction==1){
+    arc(x,60,radius,radius,radians(20),radians(330));
+  }
+  else{
+  arc(x,60,radius,radius,radians(210),radians(510));
+  }
+}
+
+
+
+
+
+
+
+
+
+//마우스 x좌표에 기울기가 비례하는 기우뚱선들
+void setup(){
+  size(240,120);
+}
+
+void draw(){
+  background(200);
+  for(int x=20;x<width;x+=20){
+    float mx=mouseX/10;
+    float offsetA=random(-mx,mx);
+    float offsetB=random(-mx,mx);
+    line(x+offsetA,20,x-offsetB,100);
+  }
+}
+
+
+
+
+
+
+
+
+
+//랜덤으로 움직이는 원.
+float speed=10;
+int diameter=20;
+float x,y;
+
+void setup(){
+  size(240,120);
+  x=width/2;
+  y=height/2;
+}
+
+void draw(){
+  x+=random(-speed,speed);
+  y+=random(-speed,speed);
+  x=constrain(x,40,width/3);
+  y=constrain(y,40,height/3);
+    ellipse(x,y,diameter,diameter);
+  }
